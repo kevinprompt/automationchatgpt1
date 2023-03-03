@@ -1,0 +1,23 @@
+import requests
+from bs4 import BeautifulSoup
+
+url = 'https://books.toscrape.com/'
+
+# Send a GET request to the URL
+response = requests.get(url)
+
+# Create a BeautifulSoup object to parse the HTML content
+soup = BeautifulSoup(response.content, 'html.parser')
+
+# Find all the book titles and prices on the page
+books = soup.find_all('article', class_='product_pod')
+
+for book in books:
+    # Extract the title of the book
+    title = book.h3.a.attrs['title']
+
+    # Extract the price of the book
+    price = float(book.select('.price_color')[0].get_text()[1:])
+
+    # Print the title and price of the book
+    print(title + ' - $' + str(price))
