@@ -1,0 +1,24 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+try:
+    # Define the filenames of the Excel files
+    filenames = ["Sales_Jan.xlsx", "Sales_Feb.xlsx", "Sales_Mar.xlsx", "Sales_Apr.xlsx", "Sales_May.xlsx", "Sales_Jun.xlsx", "Sales_Jul.xlsx", "Sales_Aug.xlsx", "Sales_Sep.xlsx", "Sales_Oct.xlsx", "Sales_Nov.xlsx", "Sales_Dec.xlsx"]
+
+    # Read the Excel files and concatenate them into one DataFrame
+    df = pd.concat([pd.read_excel(file, usecols=["Department", "Transactions"]) for file in filenames])
+
+    # Group the data by Department and calculate the total Transactions
+    df = df.groupby("Department")["Transactions"].sum().reset_index()
+
+    # Plot the bar chart
+    plt.bar(df["Department"], df["Transactions"], color="#00008B")
+    plt.title("Financial Data by Department")
+    plt.xlabel("Department")
+    plt.ylabel("Transactions")
+
+    # Show the chart
+    plt.show()
+
+except Exception as e:
+    print("An error occurred: ", e)
